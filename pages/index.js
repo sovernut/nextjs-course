@@ -17,8 +17,18 @@ const DUMMY_MEETUPS = [
     description: "first meetup",
   },
 ];
-function HomePage() {
-  return <MeetUpList meetups={DUMMY_MEETUPS} />;
+
+function HomePage(props) {
+  return <MeetUpList meetups={props.meetups} />;
+}
+
+export async function getStaticProps() {
+    // fetch data from an API
+    return {
+        props: {
+            meetups: DUMMY_MEETUPS
+        }
+    }
 }
 
 export default HomePage;
