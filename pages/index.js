@@ -22,12 +22,24 @@ function HomePage(props) {
   return <MeetUpList meetups={props.meetups} />;
 }
 
-export async function getStaticProps() {
+// export async function getServerSideProps(context) { // run on serverSide every times on request
+//     const req = context.req
+//     const res = context.res
+//     // fetch data from an API
+//     return {
+//         props: {
+//             meetups: DUMMY_MEETUPS
+//         }
+//     }
+// }
+
+export async function getStaticProps() { // run on build process
     // fetch data from an API
     return {
         props: {
             meetups: DUMMY_MEETUPS
-        }
+        },
+        revalidate: 1 // nextJs will re-generate html page every 10 seconds (if page accessed)
     }
 }
 
