@@ -39,7 +39,7 @@ export async function getStaticProps() { // run on build process
         props: {
             meetups: DUMMY_MEETUPS
         },
-        revalidate: 1 // nextJs will re-generate html page every 10 seconds (if page accessed)
+        revalidate: 10 // nextJs will re-generate html page every 10 seconds (if page accessed)
     }
 }
 
