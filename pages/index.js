@@ -1,4 +1,6 @@
 import MeetUpList from "../components/meetups/MeetupList";
+import { MongoClient } from "mongodb";
+
 const DUMMY_MEETUPS = [
   {
     id: "m1",
@@ -33,14 +35,30 @@ function HomePage(props) {
 //     }
 // }
 
-export async function getStaticProps() { // run on build process
-    // fetch data from an API
-    return {
-        props: {
-            meetups: DUMMY_MEETUPS
-        },
-        revalidate: 10 // nextJs will re-generate html page every 10 seconds (if page accessed)
-    }
+export async function getStaticProps() {
+  // run on build process
+  // fetch data from an API
+  const client = await MongoClient.connect(
+    `mongodb+srv://merchant01:${process.env.MONGO_PASS}@cluster0.q8khg.mongodb.net/meetups?retryWrites=true&w=majority`
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
+  return {
+    props: {
+      meetups: meetups.map((meetup) => ({
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        id: meetup._id.toString(),
+      })),
+    },
+    revalidate: 10, // nextJs will re-generate html page every 10 seconds (if page accessed)
+  };
 }
 
 export default HomePage;
