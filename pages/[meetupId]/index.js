@@ -1,15 +1,22 @@
 import { Fragment } from "react";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
-import { MongoClient,ObjectId } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
+import Head from "next/head";
 
 function MeetupDetails(props) {
   return (
-    <MeetupDetail
-      image={props.meetupData.image}
-      address={props.meetupData.address}
-      description={props.meetupData.description}
-      title={props.meetupData.title}
-    ></MeetupDetail>
+    <Fragment>
+      <Head>
+        <title>{props.meetupData.title}</title>
+        <meta name="description" content={props.meetupData.description} />
+      </Head>
+      <MeetupDetail
+        image={props.meetupData.image}
+        address={props.meetupData.address}
+        description={props.meetupData.description}
+        title={props.meetupData.title}
+      ></MeetupDetail>
+    </Fragment>
   );
 }
 export async function getStaticPaths(context) {
@@ -21,7 +28,7 @@ export async function getStaticPaths(context) {
 
   const meetupsCollection = db.collection("meetups");
   const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
-  client.close()
+  client.close();
   return {
     fallback: false, // set to "true" generate if not have path below
     paths: meetups.map((meetup) => ({
@@ -39,9 +46,11 @@ export async function getStaticProps(context) {
   const db = client.db();
 
   const meetupsCollection = db.collection("meetups");
-  const selectedMeetup = await meetupsCollection.findOne({ _id: ObjectId(meetupId) });
-  console.log("selected = ",selectedMeetup)
-  client.close()
+  const selectedMeetup = await meetupsCollection.findOne({
+    _id: ObjectId(meetupId),
+  });
+  console.log("selected = ", selectedMeetup);
+  client.close();
   return {
     props: {
       meetupData: {

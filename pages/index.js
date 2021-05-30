@@ -1,27 +1,17 @@
 import MeetUpList from "../components/meetups/MeetupList";
 import { MongoClient } from "mongodb";
-
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "A First Meetup",
-    image:
-      "https://static.wikia.nocookie.net/a-place-further-from-the-universe/images/e/eb/Parka_Hinata_1.PNG",
-    address: "Some Address 123456 City",
-    description: "first meetup",
-  },
-  {
-    id: "m2",
-    title: "A Second Meetup",
-    image:
-      "https://static.wikia.nocookie.net/a-place-further-from-the-universe/images/e/eb/Parka_Hinata_1.PNG",
-    address: "Some Address 123456 City",
-    description: "first meetup",
-  },
-];
-
+import { Fragment } from "react";
+import Head from 'next/head'
 function HomePage(props) {
-  return <MeetUpList meetups={props.meetups} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>Meetup</title>
+        <meta name="description" content="Browse a huge list of meetups" />
+      </Head>
+      <MeetUpList meetups={props.meetups} />
+    </Fragment>
+  );
 }
 
 // export async function getServerSideProps(context) { // run on serverSide every times on request
