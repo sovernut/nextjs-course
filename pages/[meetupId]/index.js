@@ -30,7 +30,7 @@ export async function getStaticPaths(context) {
   const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
   client.close();
   return {
-    fallback: false, // set to "true" generate if not have path below
+    fallback: 'blocking', // set to "true" generate but show 404, blocking wait until server generated files so user can see result immediatly
     paths: meetups.map((meetup) => ({
       params: { meetupId: meetup._id.toString() },
     })),

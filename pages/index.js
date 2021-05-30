@@ -47,7 +47,7 @@ export async function getStaticProps() {
         id: meetup._id.toString(),
       })),
     },
-    revalidate: 10, // nextJs will re-generate html page every 10 seconds (if page accessed)
+    revalidate: 1, // nextJs will re-generate html page every 1 seconds (if page accessed)
   };
 }
 
